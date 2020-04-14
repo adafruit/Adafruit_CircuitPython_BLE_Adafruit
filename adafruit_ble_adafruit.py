@@ -23,7 +23,7 @@
 `adafruit_ble_adafruit`
 ================================================================================
 
-Description 
+Description
 
 
 * Author(s): Dan Halbert
