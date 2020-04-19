@@ -36,6 +36,7 @@ from adafruit_ble.characteristics import Characteristic, StructCharacteristic
 
 from .adafruit_service import AdafruitService
 
+**Software and Dependencies:**
 
 class GyroscopeService(AdafruitService):
     """Gyroscope values."""
