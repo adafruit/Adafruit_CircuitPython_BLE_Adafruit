@@ -38,21 +38,13 @@ from adafruit_ble.characteristics import Characteristic, StructCharacteristic
 
 from .adafruit_service import AdafruitService
 
-class _Tone(ComplexCharacteristic):
-    """Characteristic written by client to change tone."""
-
-    uuid = AdafruitService.adafruit_service_uuid(0xC01)
-
-    def __init(self):
-        super().__init(properties=Characteristic.WRITE,
-                       read_perm=Attribute.NO_ACCESS,)
 
 class ToneService(AdafruitService):
     """Play tones."""
 
     uuid = AdafruitService.adafruit_service_uuid(0xC00)
     tone = StructCharacteristic(
-        "<HI",
+        "<HW",
         uuid=AdafruitService.adafruit_service_uuid(0xC01),
         properties=Characteristic.WRITE,
         read_perm=Attribute.NO_ACCESS,

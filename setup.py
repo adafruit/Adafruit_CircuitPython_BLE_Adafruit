@@ -43,7 +43,6 @@ setup(
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
     ],
-
     # What does your project relate to?
     keywords="adafruit blinka circuitpython micropython circuitplayground bluefruit CLUE ble",
     # You can just specify the packages manually here if your project is
