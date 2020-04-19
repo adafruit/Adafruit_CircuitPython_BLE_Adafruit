@@ -1,0 +1,82 @@
+# The MIT License (MIT)
+#
+# Copyright (c) 2020 Dan Halbert for Adafruit Industries LLC
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+"""
+`adafruit_ble_adafruit.quaternion_service`
+================================================================================
+
+BLE access to quaternion data.
+
+* Author(s): Dan Halbert
+"""
+
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
+
+from adafruit_ble.attributes import Attribute
+from adafruit_ble.characteristics import Characteristic, StructCharacteristic
+
+from .adafruit_service import AdafruitService
+
+
+class AccelerometerService(AdafruitService):
+    """Accelerometer values."""
+
+    uuid = AdafruitService.adafruit_service_uuid(0xD00)
+    quaternion = StructCharacteristic(
+        "<ffff",
+        uuid=AdafruitService.adafruit_service_uuid(0xD01),
+        properties=(Characteristic.READ | Characteristic.NOTIFY),
+        write_perm=Attribute.NO_ACCESS,
+    )
+    """Tuple (qw, qx, qy, qz) of float quaternion values."""
+    measurement_period = AdafruitService.measurement_period_charac()
+    """Initially 1000ms."""
+
+    calibration_in = StructCharacteristic(
+        "<fffffffff",
+        uuid=AdafruitService.adafruit_service_uuid(0xD02),
+        properties=(Characteristic.READ | Characteristic.NOTIFY),
+        write_perm=Attribute.NO_ACCESS,
+    )
+    """9-tuple of floats sent to client for calibration calculation:
+    (acceleration x, y, z,  # in m/s^2
+     gyro x, y, z,   # in rad/s
+     magnetic x, y, z,   # in microteslas
+    )
+    """
+
+    calibration_out = StructCharacteristic(
+        "<fffffffffffffffffff",
+        uuid=AdafruitService.adafruit_service_uuid(0xD03),
+        properties=(Characteristic.WRITE),
+        read_perm=Attribute.NO_ACCESS,
+    )
+    """19-tuple of floats sent back to server after calibration calculation
+    (acceleration_zerog x, y, z,  # in m/s^2
+     gyro_zerorate x, y, z,   # in rad/s
+     magnetic_hardiron x, y, z,   # in microteslas
+     magnetic_field f,  # in microteslas
+     magnetic_softiron v1, v2, v3, v4, v5, v6, v7, v8, v9,   # unitless
+    )
+    """
+
+    # TO DO: Calibration calculations and storage

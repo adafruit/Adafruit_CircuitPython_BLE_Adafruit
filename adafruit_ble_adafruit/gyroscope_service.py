@@ -20,29 +20,33 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`adafruit_ble_adafruit`
+`adafruit_ble_adafruit.gyroscope_service`
 ================================================================================
 
-Description 
-
+BLE access to gyroscope data.
 
 * Author(s): Dan Halbert
-
-Implementation Notes
---------------------
-
-**Hardware:**
-
-* `Adafruit CircuitPlayground Bluefruit <https://www.adafruit.com/product/4333>`_
-* `Adafruit CLUE nRF52840 Express <https://www.adafruit.com/product/4500>`_
-
-**Software and Dependencies:**
-
-* Adafruit CircuitPython firmware for the supported boards:
-  https://github.com/adafruit/circuitpython/releases
 """
-
-# imports
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
+
+from adafruit_ble.attributes import Attribute
+from adafruit_ble.characteristics import Characteristic, StructCharacteristic
+
+from .adafruit_service import AdafruitService
+
+
+class GyroscopeService(AdafruitService):
+    """Gyroscope values."""
+
+    uuid = AdafruitService.adafruit_service_uuid(0x400)
+    gyro = StructCharacteristic(
+        "<fff",
+        uuid=AdafruitService.adafruit_service_uuid(0x401),
+        properties=(Characteristic.READ | Characteristic.NOTIFY),
+        write_perm=Attribute.NO_ACCESS,
+    )
+    """Tuple (x, y, z) float gyroscope values, in rad/s"""
+    measurement_period = AdafruitService.measurement_period_charac()
+    """Initially 1000ms."""
