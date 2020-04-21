@@ -34,10 +34,6 @@ temp_svc.measurement_period = 100
 temp_last_update = 0
 
 tone_svc = ToneService()
-# Nothing playing now.
-last_tone = (0, 0)
-tone_last_freq = 0
-tone_playing = False
 
 ble = BLERadio()
 
@@ -70,8 +66,7 @@ while True:
         button_svc.set_pressed(cp.switch, cp.button_a, cp.button_b)
 
         tone = tone_svc.tone
-        if tone != last_tone:
-            print(tone)
+        if tone is not None:
             freq, duration = tone
             if freq != 0:
                 if duration != 0:
