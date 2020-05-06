@@ -31,13 +31,55 @@ BLE control of addressable pixels, such as NeoPixels or DotStars.
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 
+from collections import namedtuple
 import struct
 
-from adafruit_ble.attributes import Attribute
-from adafruit_ble.characteristics import Characteristic
-from adafruit_ble.characteristics.int import Uint8Characteristic
+import _bleio
 
-from .adafruit_service import AdafruitService
+from adafruit_ble.attributes import Attribute
+from adafruit_ble.characteristics import Characteristic, ComplexCharacteristic
+from adafruit_ble.characteristics.int import Uint8Characteristic
+from adafruit_ble_adafruit.adafruit_service import AdafruitService
+
+PixelValues = namedtuple("PixelValues", ("start", "write_now", "data"),)
+"""Namedtuple for pixel data and instructions.
+
+* start
+
+    start writing data into buffer at this byte number (byte, not pixel)
+
+* write_now
+
+    ``True`` if data should be written to pixels now.
+    ``False`` if write should not happen immediately.
+
+* data
+
+    sequence of bytes of data for all pixels, in proper color order for type of pixel
+"""
+
+
+class _PixelPacket(ComplexCharacteristic):
+    """
+    start: uint16: start writing data into buffer at this byte number (byte, not pixel)
+    flags: uint8: bit 0: 0 = don't write to pixels yet
+                         1 = write entire buffer to pixels now
+    data: raw array of data for all pixels, in proper color order for type of pixel
+    """
+
+    uuid = AdafruitService.adafruit_service_uuid(0x903)
+
+    def __init__(self, length):
+        super().__init__(
+            properties=Characteristic.WRITE,
+            read_perm=Attribute.NO_ACCESS,
+            max_length=length,
+        )
+
+    def bind(self, service):
+        """Binds the characteristic to the given Service."""
+        bound_characteristic = super().bind(service)
+        return _bleio.PacketBuffer(bound_characteristic, buffer_size=1)
 
 
 class AddressablePixelService(AdafruitService):
@@ -54,28 +96,32 @@ class AddressablePixelService(AdafruitService):
         uuid=AdafruitService.adafruit_service_uuid(0x902),
         properties=(Characteristic.READ | Characteristic.WRITE),
     )
-    """0 = WS2812 (NeoPixel), 800kHz
+    """
+    0 = WS2812 (NeoPixel), 800kHz
     1 = SPI (APA102: DotStar)
     """
-    pixel_data = Characteristic(
-        uuid=AdafruitService.adafruit_service_uuid(0x903),
-        properties=Characteristic.WRITE,
-        write_perm=Attribute.NO_ACCESS,
-    )
-    """\
-    start: uint16: start writing data into buffer at this byte number (byte, not pixel)
-    flags: uint8: bit 0: 0 = don't write to pixels yet
-                         1 = write entire buffer to pixels now
-    data: raw array of data for all pixels, in proper color order for type of pixel
-    """
+
+    def __init__(self, length, service=None):
+        # Delay creation of _pixel_packet until length is given.
+        self.__class__._pixel_packet = _PixelPacket(length + 3)
+        super().__init__(service=service)
+        self._pixel_packet_buf = None
+        self._buf_length = length
 
     @property
-    def parsed_pixel_data(self):
+    def values(self):
         """Return a tuple (start, write_now, data) corresponding to the
-        different parts of ``pixel_data``.
+        different parts of ``_pixel_packet``.
         """
-        pixel_data = self.pixel_data
-        start = struct.unpack_from("<H", pixel_data)
-        write_now = bool(pixel_data[2] & 0x1)
-        data = memoryview(pixel_data)[3:]
-        return (start, write_now, data)
+        if self._pixel_packet_buf is None:
+            self._pixel_packet_buf = bytearray(
+                self._pixel_packet.packet_size  # pylint: disable=no-member
+            )
+        buf = self._pixel_packet_buf
+        if self._pixel_packet.readinto(buf) == 0:  # pylint: disable=no-member
+            # No new values available
+            return None
+
+        return PixelValues(
+            struct.unpack_from("<H", buf)[0], bool(buf[2] & 0x1), buf[3:],
+        )

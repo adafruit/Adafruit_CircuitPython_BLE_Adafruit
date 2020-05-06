@@ -33,12 +33,11 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic
 from adafruit_ble.characteristics.int import Uint8Characteristic
+from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
-from .adafruit_service import AdafruitService
 
-
-class ButtonService(AdafruitService):
-    """Status of buttons and switches on the board."""
+class GestureService(AdafruitService):
+    """Gesture sensor."""
 
     UP = 1  # pylint: disable=invalid-name
     """swipe up"""

@@ -2,6 +2,12 @@
 
 import time
 
+import board
+from digitalio import DigitalInOut
+import neopixel_write
+
+from micropython import const
+
 from adafruit_ble import BLERadio
 
 from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
@@ -19,8 +25,13 @@ accel_svc = AccelerometerService()
 accel_svc.measurement_period = 100
 accel_last_update = 0
 
-neopixel_svc = AddressablePixelService()
-
+NEOPIXEL_BUF_LENGTH = const(30)
+neopixel_svc = AddressablePixelService(NEOPIXEL_BUF_LENGTH)
+neopixel_buf = bytearray(NEOPIXEL_BUF_LENGTH)
+# Take over NeoPixel control from cp.
+cp._pixels.deinit()  # pylint: disable=protected-access
+neopixel_out = DigitalInOut(board.NEOPIXEL)
+neopixel_out.switch_to_output()
 
 button_svc = ButtonService()
 button_svc.set_pressed(cp.switch, cp.button_a, cp.button_b)
@@ -49,7 +60,7 @@ while True:
     ble.stop_advertising()
 
     while ble.connected:
-        now_msecs = time.monotonic_ns() // 10000000
+        now_msecs = time.monotonic_ns() // 1000000
 
         if now_msecs - accel_last_update > accel_svc.measurement_period:
             accel_svc.acceleration = cp.acceleration
@@ -81,3 +92,14 @@ while True:
             else:
                 cp.stop_tone()
         last_tone = tone
+
+        neopixel_values = neopixel_svc.values
+        if neopixel_values is not None:
+            start = neopixel_values.start
+            if start > NEOPIXEL_BUF_LENGTH:
+                continue
+            data = neopixel_values.data
+            data_len = min(len(data), NEOPIXEL_BUF_LENGTH - start)
+            neopixel_buf[start : start + data_len] = data[:data_len]
+            if neopixel_values.write_now:
+                neopixel_write.neopixel_write(neopixel_out, neopixel_buf)

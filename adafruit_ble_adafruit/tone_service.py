@@ -37,8 +37,7 @@ from _bleio import PacketBuffer
 
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic, ComplexCharacteristic
-
-from .adafruit_service import AdafruitService
+from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
 class _TonePacket(ComplexCharacteristic):
