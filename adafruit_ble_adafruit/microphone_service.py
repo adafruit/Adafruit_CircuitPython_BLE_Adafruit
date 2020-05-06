@@ -41,11 +41,7 @@ class MicrophoneService(AdafruitService):
     """Digital microphone data."""
 
     uuid = AdafruitService.adafruit_service_uuid(0xB00)
-    sound_samples = Characteristic(
-        uuid=AdafruitService.adafruit_service_uuid(0xB01),
-        properties=(Characteristic.READ | Characteristic.NOTIFY),
-        write_perm=Attribute.NO_ACCESS,
-    )
+    sound_samples = None
     """
     Array of 16-bit sound samples, varying based on period.
     If num_channel == 2, the samples alternate left and right channels.
@@ -60,3 +56,12 @@ class MicrophoneService(AdafruitService):
 
     measurement_period = AdafruitService.measurement_period_charac()
     """Initially 1000ms."""
+
+    def __init__(self, max_samples, service=None):
+        self.__class__.sound_samples = Characteristic(
+            uuid=AdafruitService.adafruit_service_uuid(0xB01),
+            properties=(Characteristic.READ | Characteristic.NOTIFY),
+            write_perm=Attribute.NO_ACCESS,
+            max_length=max_samples * 2,
+        )
+        super().__init__(service=service)
