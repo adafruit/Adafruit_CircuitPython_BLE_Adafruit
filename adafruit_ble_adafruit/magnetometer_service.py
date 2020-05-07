@@ -36,7 +36,7 @@ from adafruit_ble.characteristics import Characteristic, StructCharacteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class MagnetometerService(AdafruitService):
+class MagnetometerService(AdafruitService):  # pylint: disable=too-few-public-methods
     """Magnetometer values."""
 
     uuid = AdafruitService.adafruit_service_uuid(0x500)

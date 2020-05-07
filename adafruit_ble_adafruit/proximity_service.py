@@ -36,7 +36,7 @@ from adafruit_ble.characteristics.int import Uint16Characteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class ProximityService(AdafruitService):
+class ProximityService(AdafruitService):  # pylint: disable=too-few-public-methods
     """Status of buttons and switches on the board."""
 
     uuid = AdafruitService.adafruit_service_uuid(0xE00)

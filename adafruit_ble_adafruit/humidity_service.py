@@ -38,7 +38,7 @@ from adafruit_ble.characteristics.float import FloatCharacteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class HumidityService(AdafruitService):
+class HumidityService(AdafruitService):  # pylint: disable=too-few-public-methods
     """Humidity sensor value."""
 
     uuid = AdafruitService.adafruit_service_uuid(0x700)

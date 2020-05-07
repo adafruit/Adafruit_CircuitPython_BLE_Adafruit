@@ -37,7 +37,7 @@ from adafruit_ble.characteristics.float import FloatCharacteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class LightSensorService(AdafruitService):
+class LightSensorService(AdafruitService):  # pylint: disable=too-few-public-methods
     """Light sensor value."""
 
     uuid = AdafruitService.adafruit_service_uuid(0x300)

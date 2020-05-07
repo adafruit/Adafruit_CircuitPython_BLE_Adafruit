@@ -1,15 +1,12 @@
 # Bluefruit Playground server program, to run on CLUE
 
-import array
 import time
+
+from micropython import const
 
 import board
 from digitalio import DigitalInOut
 import neopixel_write
-import ulab
-
-from micropython import const
-
 from adafruit_ble import BLERadio
 
 from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
@@ -23,6 +20,8 @@ from adafruit_ble_adafruit.light_sensor_service import LightSensorService
 from adafruit_ble_adafruit.microphone_service import MicrophoneService
 from adafruit_ble_adafruit.temperature_service import TemperatureService
 from adafruit_ble_adafruit.tone_service import ToneService
+
+import ulab
 
 from adafruit_clue import clue
 
@@ -84,7 +83,7 @@ while True:
     ble.stop_advertising()
 
     while ble.connected:
-        now_msecs = time.monotonic_ns() // 1000000
+        now_msecs = time.monotonic_ns() // 1000000  # pylint: disable=no-member
 
         if now_msecs - accel_last_update >= accel_svc.measurement_period:
             accel_svc.acceleration = clue.acceleration
@@ -106,9 +105,9 @@ while True:
             light_last_update = now_msecs
 
         if now_msecs - mic_last_update >= mic_svc.measurement_period:
-            clue._mic.record(
+            clue._mic.record(  # pylint: disable=protected-access
                 mic_samples, len(mic_samples)
-            )  # pylint: disable=protected-access
+            )
             mic_svc.sound_samples = mic_samples - 32768
             mic_last_update = now_msecs
 

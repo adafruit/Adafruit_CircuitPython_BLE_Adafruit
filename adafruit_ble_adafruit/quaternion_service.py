@@ -36,7 +36,7 @@ from adafruit_ble.characteristics import Characteristic, StructCharacteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class QuaternionService(AdafruitService):
+class QuaternionService(AdafruitService):  # pylint: disable=too-few-public-methods
     """Quaternion values."""
 
     uuid = AdafruitService.adafruit_service_uuid(0xD00)

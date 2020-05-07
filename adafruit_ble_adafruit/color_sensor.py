@@ -36,7 +36,7 @@ from adafruit_ble.characteristics import Characteristic, StructCharacteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class ColorSensorService(AdafruitService):
+class ColorSensorService(AdafruitService):  # pylint: disable=too-few-public-methods
     """Color sensor value."""
 
     uuid = AdafruitService.adafruit_service_uuid(0xA00)

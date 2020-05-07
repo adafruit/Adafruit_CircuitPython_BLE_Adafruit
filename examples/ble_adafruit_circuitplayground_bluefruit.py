@@ -60,7 +60,7 @@ while True:
     ble.stop_advertising()
 
     while ble.connected:
-        now_msecs = time.monotonic_ns() // 1000000
+        now_msecs = time.monotonic_ns() // 1000000  # pylint: disable=no-member
 
         if now_msecs - accel_last_update >= accel_svc.measurement_period:
             accel_svc.acceleration = cp.acceleration

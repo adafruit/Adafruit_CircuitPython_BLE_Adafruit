@@ -37,7 +37,7 @@ from adafruit_ble.characteristics.int import Uint8Characteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class MicrophoneService(AdafruitService):
+class MicrophoneService(AdafruitService):  # pylint: disable=too-few-public-methods
     """Digital microphone data."""
 
     uuid = AdafruitService.adafruit_service_uuid(0xB00)

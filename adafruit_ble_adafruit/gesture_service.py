@@ -36,7 +36,7 @@ from adafruit_ble.characteristics.int import Uint8Characteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class GestureService(AdafruitService):
+class GestureService(AdafruitService):  # pylint: disable=too-few-public-methods
     """Gesture sensor."""
 
     UP = 1  # pylint: disable=invalid-name

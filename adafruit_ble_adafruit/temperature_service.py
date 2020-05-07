@@ -37,7 +37,7 @@ from adafruit_ble.characteristics.float import FloatCharacteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class TemperatureService(AdafruitService):
+class TemperatureService(AdafruitService):  # pylint: disable=too-few-public-methods
     """Temperature sensor."""
 
     uuid = AdafruitService.adafruit_service_uuid(0x100)
