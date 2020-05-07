@@ -42,7 +42,7 @@ class HumidityService(AdafruitService):
     """Humidity sensor value."""
 
     uuid = AdafruitService.adafruit_service_uuid(0x700)
-    relative_humidity = FloatCharacteristic(
+    humidity = FloatCharacteristic(
         uuid=AdafruitService.adafruit_service_uuid(0x701),
         properties=(Characteristic.READ | Characteristic.NOTIFY),
         write_perm=Attribute.NO_ACCESS,
