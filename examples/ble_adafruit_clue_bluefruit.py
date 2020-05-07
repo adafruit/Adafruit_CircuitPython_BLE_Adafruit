@@ -6,6 +6,7 @@ import time
 import board
 from digitalio import DigitalInOut
 import neopixel_write
+import ulab
 
 from micropython import const
 
@@ -61,7 +62,7 @@ mic_svc = MicrophoneService(MIC_NUM_SAMPLES)
 mic_svc.number_of_channels = 1
 mic_svc.measurement_period = 100
 mic_last_update = 0
-mic_samples = array.array("H", [0] * MIC_NUM_SAMPLES)
+mic_samples = ulab.zeros(MIC_NUM_SAMPLES, dtype=ulab.uint16)
 
 temp_svc = TemperatureService()
 temp_svc.measurement_period = 100
@@ -108,7 +109,7 @@ while True:
             clue._mic.record(
                 mic_samples, len(mic_samples)
             )  # pylint: disable=protected-access
-            mic_svc.sound_samples = mic_samples
+            mic_svc.sound_samples = mic_samples - 32768
             mic_last_update = now_msecs
 
         neopixel_values = neopixel_svc.values
