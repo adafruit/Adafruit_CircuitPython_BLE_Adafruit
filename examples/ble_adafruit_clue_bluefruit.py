@@ -29,10 +29,8 @@ accel_svc = AccelerometerService()
 accel_svc.measurement_period = 100
 accel_last_update = 0
 
-# Even though the CLUE only has one NeoPixel, the Bluefruit Playground
-# app is sending data for 10 pixels, so expect that many. Only the
-# first pixel data will be visible, obviously.
-NEOPIXEL_BUF_LENGTH = const(3 * 10)
+# CLUE has just one board pixel. The 3 is for RGB.
+NEOPIXEL_BUF_LENGTH = const(3 * 1)
 neopixel_svc = AddressablePixelService(NEOPIXEL_BUF_LENGTH)
 neopixel_buf = bytearray(NEOPIXEL_BUF_LENGTH)
 # Take over NeoPixel control from clue.
