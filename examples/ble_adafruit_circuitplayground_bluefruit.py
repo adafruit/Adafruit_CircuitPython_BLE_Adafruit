@@ -25,7 +25,8 @@ accel_svc = AccelerometerService()
 accel_svc.measurement_period = 100
 accel_last_update = 0
 
-NEOPIXEL_BUF_LENGTH = const(30)
+# 3 RGB bytes * 10 pixels.
+NEOPIXEL_BUF_LENGTH = const(3 * 10)
 neopixel_svc = AddressablePixelService(NEOPIXEL_BUF_LENGTH)
 neopixel_buf = bytearray(NEOPIXEL_BUF_LENGTH)
 # Take over NeoPixel control from cp.

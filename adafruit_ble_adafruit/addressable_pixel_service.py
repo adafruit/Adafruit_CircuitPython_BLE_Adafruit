@@ -69,15 +69,18 @@ class _PixelPacket(ComplexCharacteristic):
 
     uuid = AdafruitService.adafruit_service_uuid(0x903)
 
-    def __init__(self, length):
+    def __init__(self):
         super().__init__(
             properties=Characteristic.WRITE,
             read_perm=Attribute.NO_ACCESS,
-            max_length=length,
+            # max length will be set on binding.
         )
 
     def bind(self, service):
         """Binds the characteristic to the given Service."""
+        # Set Characteristic's max length, based on value from AddressablePixelService.
+        # + 3 is for size of start and flags
+        self.max_length = service.data_length + 3
         bound_characteristic = super().bind(service)
         return _bleio.PacketBuffer(bound_characteristic, buffer_size=1)
 
@@ -100,13 +103,14 @@ class AddressablePixelService(AdafruitService):
     0 = WS2812 (NeoPixel), 800kHz
     1 = SPI (APA102: DotStar)
     """
+    _pixel_packet = _PixelPacket()
+    """Pixel-setting data. max_length is supplied on binding."""
 
-    def __init__(self, length, service=None):
-        # Delay creation of _pixel_packet until length is given.
-        self.__class__._pixel_packet = _PixelPacket(length + 3)
-        super().__init__(service=service)
+    def __init__(self, data_length, service=None):
+        # Used by _PixelPacket when binding is done.
+        self.data_length = data_length
         self._pixel_packet_buf = None
-        self._buf_length = length
+        super().__init__(service=service)
 
     @property
     def values(self):

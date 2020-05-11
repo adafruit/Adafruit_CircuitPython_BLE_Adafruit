@@ -29,7 +29,7 @@ accel_svc = AccelerometerService()
 accel_svc.measurement_period = 100
 accel_last_update = 0
 
-# CLUE has just one board pixel. The 3 is for RGB.
+# CLUE has just one board pixel. 3 RGB bytes * 1 pixel.
 NEOPIXEL_BUF_LENGTH = const(3 * 1)
 neopixel_svc = AddressablePixelService(NEOPIXEL_BUF_LENGTH)
 neopixel_buf = bytearray(NEOPIXEL_BUF_LENGTH)
@@ -106,6 +106,8 @@ while True:
             clue._mic.record(  # pylint: disable=protected-access
                 mic_samples, len(mic_samples)
             )
+            # This subtraction yields unsigned values which are
+            # reinterpreted as signed after passing.
             mic_svc.sound_samples = mic_samples - 32768
             mic_last_update = now_msecs
 

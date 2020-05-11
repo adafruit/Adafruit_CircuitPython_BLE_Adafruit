@@ -37,11 +37,31 @@ from adafruit_ble.characteristics.int import Uint8Characteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
+class _SoundSamples(Characteristic):  # pylint: disable=too-few-public-methods
+    """The Characteristic's max_length is passed from the service,
+    so defer setting it until binding happens.
+    """
+
+    def __init__(self):
+        super().__init__(
+            uuid=AdafruitService.adafruit_service_uuid(0xB01),
+            properties=(Characteristic.READ | Characteristic.NOTIFY),
+            write_perm=Attribute.NO_ACCESS,
+        )
+
+    def __bind_locally(self, service, initial_value):
+        # The service instantiation determines how many samples
+        # to send.
+        self.max_length = service.num_samples * 2
+        return super().__bind_locally(service, initial_value)
+
+
 class MicrophoneService(AdafruitService):  # pylint: disable=too-few-public-methods
     """Digital microphone data."""
 
     uuid = AdafruitService.adafruit_service_uuid(0xB00)
-    sound_samples = None
+
+    sound_samples = _SoundSamples()
     """
     Array of 16-bit sound samples, varying based on period.
     If num_channel == 2, the samples alternate left and right channels.
@@ -57,11 +77,7 @@ class MicrophoneService(AdafruitService):  # pylint: disable=too-few-public-meth
     measurement_period = AdafruitService.measurement_period_charac()
     """Initially 1000ms."""
 
-    def __init__(self, max_samples, service=None):
-        self.__class__.sound_samples = Characteristic(
-            uuid=AdafruitService.adafruit_service_uuid(0xB01),
-            properties=(Characteristic.READ | Characteristic.NOTIFY),
-            write_perm=Attribute.NO_ACCESS,
-            max_length=max_samples * 2,
-        )
+    def __init__(self, num_samples, service=None):
+        # Used by _SoundSamples when binding is done.
+        self.num_samples = num_samples
         super().__init__(service=service)
