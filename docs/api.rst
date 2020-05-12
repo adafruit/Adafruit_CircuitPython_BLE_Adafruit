@@ -1,2 +1,44 @@
-.. automodule:: adafruit_ble_adafruit
+.. automodule:: adafruit_ble_adafruit.accelerometer_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.adafruit_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.addressable_pixel_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.barometric_pressure_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.button_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.color_sensor_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.gesture_sensor
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.gyroscope_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.humidity_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.light_sensor_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.magnetometer_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.proximity_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.quaternion_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.temperature_service
+   :members:
+
+.. automodule:: adafruit_ble_adafruit.tone_service
    :members:
