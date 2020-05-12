@@ -73,14 +73,13 @@ class _PixelPacket(ComplexCharacteristic):
         super().__init__(
             properties=Characteristic.WRITE,
             read_perm=Attribute.NO_ACCESS,
-            # max length will be set on binding.
+            max_length=512,
         )
 
     def bind(self, service):
         """Binds the characteristic to the given Service."""
         # Set Characteristic's max length, based on value from AddressablePixelService.
         # + 3 is for size of start and flags
-        self.max_length = service.data_length + 3
         bound_characteristic = super().bind(service)
         return _bleio.PacketBuffer(bound_characteristic, buffer_size=1)
 
@@ -106,9 +105,7 @@ class AddressablePixelService(AdafruitService):
     _pixel_packet = _PixelPacket()
     """Pixel-setting data. max_length is supplied on binding."""
 
-    def __init__(self, data_length, service=None):
-        # Used by _PixelPacket when binding is done.
-        self.data_length = data_length
+    def __init__(self, service=None):
         self._pixel_packet_buf = None
         super().__init__(service=service)
 

@@ -27,7 +27,7 @@ accel_last_update = 0
 
 # 3 RGB bytes * 10 pixels.
 NEOPIXEL_BUF_LENGTH = const(3 * 10)
-neopixel_svc = AddressablePixelService(NEOPIXEL_BUF_LENGTH)
+neopixel_svc = AddressablePixelService()
 neopixel_buf = bytearray(NEOPIXEL_BUF_LENGTH)
 # Take over NeoPixel control from cp.
 cp._pixels.deinit()  # pylint: disable=protected-access
@@ -48,7 +48,12 @@ temp_last_update = 0
 tone_svc = ToneService()
 
 ble = BLERadio()
+# The Web Bluetooth dashboard identifies known boards by their
+# advertised name, not by advertising manufacturer data.
+ble.name = "CPlay"
 
+# The Bluefruit Playground app looks in the manufacturer data
+# in the advertisement. That data uses the USB PID as a unique ID.
 # Adafruit Circuit Playground Bluefruit USB PID:
 # Arduino: 0x8045,  CircuitPython: 0x8046, app supports either
 adv = AdafruitServerAdvertisement(0x8046)
@@ -90,14 +95,14 @@ while True:
 
         tone = tone_svc.tone
         if tone is not None:
-            freq, duration = tone
+            freq, duration_msecs = tone
             if freq != 0:
-                if duration != 0:
+                if duration_msecs != 0:
                     # Note that this blocks. Alternatively we could
                     # use now_msecs to time a tone in a non-blocking
                     # way, but then the other updates might make the
                     # tone interval less consistent.
-                    cp.play_tone(freq, duration)
+                    cp.play_tone(freq, duration_msecs / 1000)
                 else:
                     cp.stop_tone()
                     cp.start_tone(freq)

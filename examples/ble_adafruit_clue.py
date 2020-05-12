@@ -31,7 +31,7 @@ accel_last_update = 0
 
 # CLUE has just one board pixel. 3 RGB bytes * 1 pixel.
 NEOPIXEL_BUF_LENGTH = const(3 * 1)
-neopixel_svc = AddressablePixelService(NEOPIXEL_BUF_LENGTH)
+neopixel_svc = AddressablePixelService()
 neopixel_buf = bytearray(NEOPIXEL_BUF_LENGTH)
 # Take over NeoPixel control from clue.
 clue._pixel.deinit()  # pylint: disable=protected-access
@@ -55,7 +55,7 @@ light_last_update = 0
 
 # Send 256 16-bit samples at a time.
 MIC_NUM_SAMPLES = const(256)
-mic_svc = MicrophoneService(MIC_NUM_SAMPLES)
+mic_svc = MicrophoneService()
 mic_svc.number_of_channels = 1
 mic_svc.measurement_period = 100
 mic_last_update = 0
@@ -68,7 +68,12 @@ temp_last_update = 0
 tone_svc = ToneService()
 
 ble = BLERadio()
+# The Web Bluetooth dashboard identifies known boards by their
+# advertised name, not by advertising manufacturer data.
+ble.name = "CLUE"
 
+# The Bluefruit Playground app looks in the manufacturer data
+# in the advertisement. That data uses the USB PID as a unique ID.
 # Adafruit CLUE USB PID:
 # Arduino: 0x8071,  CircuitPython: 0x8072, app supports either
 adv = AdafruitServerAdvertisement(0x8072)
@@ -128,14 +133,14 @@ while True:
 
         tone = tone_svc.tone
         if tone is not None:
-            freq, duration = tone
+            freq, duration_msecs = tone
             if freq != 0:
-                if duration != 0:
+                if duration_msecs != 0:
                     # Note that this blocks. Alternatively we could
                     # use now_msecs to time a tone in a non-blocking
                     # way, but then the other updates might make the
                     # tone interval less consistent.
-                    clue.play_tone(freq, duration)
+                    clue.play_tone(freq, duration_msecs / 1000)
                 else:
                     clue.stop_tone()
                     clue.start_tone(freq)
