@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`adafruit_ble_adafruit`
+`adafruit_ble_adafruit.adafruit_service`
 ================================================================================
 
 Access to sensors and hardware on or connected to BLE-capable boards.
