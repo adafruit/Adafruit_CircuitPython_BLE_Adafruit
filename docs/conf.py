@@ -23,7 +23,7 @@ extensions = [
 # autodoc module docs will fail to generate with a warning.
 autodoc_mock_imports = [
     "_bleio",
-    "adafruit_ble_adafruit",
+    "adafruit_ble",
     "board",
     "digitalio",
     "busio",
