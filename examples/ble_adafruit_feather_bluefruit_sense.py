@@ -1,4 +1,5 @@
-# Bluefruit Playground server program, to run on CLUE
+# Bluefruit Playground and Web Bluetooth Dashboard server program, to
+# run on Feather Bluefruit Sense
 
 import time
 
@@ -95,7 +96,8 @@ ble.name = "Sense"
 # Feather Bluefruit Sense USB PID:
 # This board is not yet support on the app.
 # Arduino: 0x8087,  CircuitPython: 0x8088
-adv = AdafruitServerAdvertisement(0x8088)
+adv = AdafruitServerAdvertisement()
+adv.pin = 0x8088
 
 while True:
     # Advertise when not connected.

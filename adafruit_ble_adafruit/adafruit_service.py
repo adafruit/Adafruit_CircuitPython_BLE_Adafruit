@@ -64,11 +64,16 @@ _PID_DATA_ID = const(0x0001)  # This is the same as the Radio data id, unfortuna
 
 class AdafruitServerAdvertisement(Advertisement):
     """Advertise the Adafruit company ID and the board USB PID.
-
-    :param pid: The USB PID (product id) for this board
     """
 
-    prefix = struct.pack("<BBH", 0x3, _MANUFACTURING_DATA_ADT, _ADAFRUIT_COMPANY_ID)
+    prefix = struct.pack(
+        "<BBHBH",
+        0x6,
+        _MANUFACTURING_DATA_ADT,
+        _ADAFRUIT_COMPANY_ID,
+        struct.calcsize("<HH"),
+        _PID_DATA_ID,
+    )
     manufacturer_data = LazyObjectField(
         ManufacturerData,
         "manufacturer_data",
@@ -77,13 +82,17 @@ class AdafruitServerAdvertisement(Advertisement):
         key_encoding="<H",
     )
     pid = ManufacturerDataField(_PID_DATA_ID, "<H")
+    """The USB PID (product id) for this board."""
 
-    def __init__(self, pid):
+    def __init__(self):
         super().__init__()
         self.connectable = True
         self.flags.general_discovery = True
         self.flags.le_only = True
-        self.pid = pid
+
+    @classmethod
+    def matches(cls, entry):
+        return entry.matches(cls.prefix, all=False)
 
 
 class AdafruitService(Service):

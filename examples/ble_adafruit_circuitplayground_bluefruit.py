@@ -56,7 +56,8 @@ ble.name = "CPlay"
 # in the advertisement. That data uses the USB PID as a unique ID.
 # Adafruit Circuit Playground Bluefruit USB PID:
 # Arduino: 0x8045,  CircuitPython: 0x8046, app supports either
-adv = AdafruitServerAdvertisement(0x8046)
+adv = AdafruitServerAdvertisement()
+adv.pin = 0x8046
 
 while True:
     # Advertise when not connected.

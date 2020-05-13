@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`adafruit_ble_adafruit.humdity_service`
+`adafruit_ble_adafruit.humidity_service`
 ================================================================================
 
 BLE access to humidity data.

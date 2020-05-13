@@ -21,7 +21,7 @@ setup(
     name="adafruit-circuitpython-ble-adafruit",
     use_scm_version=True,
     setup_requires=["setuptools_scm"],
-    description="Description ",
+    description="Access to sensors and hardware on or connected to BLE-capable boards",
     long_description=long_description,
     long_description_content_type="text/x-rst",
     # The project's main homepage.
@@ -47,7 +47,5 @@ setup(
     keywords="adafruit blinka circuitpython micropython circuitplayground bluefruit CLUE ble",
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    # TODO: IF LIBRARY FILES ARE A PACKAGE FOLDER,
-    #       CHANGE `py_modules=['...']` TO `packages=['...']`
     packages=["adafruit_ble_adafruit"],
 )
