@@ -77,7 +77,7 @@ ble.name = "CLUE"
 # Adafruit CLUE USB PID:
 # Arduino: 0x8071,  CircuitPython: 0x8072, app supports either
 adv = AdafruitServerAdvertisement()
-adv.pin = 0x8072
+adv.pid = 0x8072
 
 while True:
     # Advertise when not connected.

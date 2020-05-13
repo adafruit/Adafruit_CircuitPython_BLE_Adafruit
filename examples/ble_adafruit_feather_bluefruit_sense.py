@@ -97,7 +97,7 @@ ble.name = "Sense"
 # This board is not yet support on the app.
 # Arduino: 0x8087,  CircuitPython: 0x8088
 adv = AdafruitServerAdvertisement()
-adv.pin = 0x8088
+adv.pid = 0x8088
 
 while True:
     # Advertise when not connected.
