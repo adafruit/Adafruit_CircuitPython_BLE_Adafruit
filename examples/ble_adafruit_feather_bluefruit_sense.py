@@ -1,9 +1,8 @@
-# Bluefruit Playground and Web Bluetooth Dashboard server program, to
-# run on Feather Bluefruit Sense
+# Adafruit Service demo for Adafruit Feather Bluefruit Sense board.
+# Accessible via Adafruit Web Bluetooth Dashboard.
+# (As of this writing, not yet accessible via Bluefruit Playground app.)
 
 import time
-
-from micropython import const
 
 import board
 
@@ -12,12 +11,12 @@ import neopixel_write
 
 from adafruit_ble import BLERadio
 
+import audiobusio
+
 import adafruit_apds9960.apds9960
 import adafruit_bmp280
 import adafruit_lsm6ds
 import adafruit_sht31d
-
-import audiobusio
 
 from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
 
@@ -46,12 +45,14 @@ mic = audiobusio.PDMIn(
     board.MICROPHONE_CLOCK, board.MICROPHONE_DATA, sample_rate=16000, bit_depth=16,
 )
 
+# Create and initialize the available services.
+
 accel_svc = AccelerometerService()
 accel_svc.measurement_period = 100
 accel_last_update = 0
 
-# One NeoPixel on the board.
-NEOPIXEL_BUF_LENGTH = const(3 * 1)
+# Feather Bluefruit Sense has just one board pixel. 3 RGB bytes * 1 pixel
+NEOPIXEL_BUF_LENGTH = 3 * 1
 neopixel_svc = AddressablePixelService()
 neopixel_buf = bytearray(NEOPIXEL_BUF_LENGTH)
 neopixel_out = digitalio.DigitalInOut(board.NEOPIXEL)
@@ -75,7 +76,7 @@ light_svc.measurement_period = 100
 light_last_update = 0
 
 # Send 256 16-bit samples at a time.
-MIC_NUM_SAMPLES = const(256)
+MIC_NUM_SAMPLES = 256
 mic_svc = MicrophoneService()
 mic_svc.number_of_channels = 1
 mic_svc.measurement_period = 100

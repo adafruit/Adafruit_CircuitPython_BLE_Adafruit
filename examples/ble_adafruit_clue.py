@@ -1,8 +1,7 @@
-# Bluefruit Playground server program, to run on CLUE
+# Adafruit Service demo for Adafruit CLUE board.
+# Accessible via Adafruit Bluefruit Playground app and Web Bluetooth Dashboard.
 
 import time
-
-from micropython import const
 
 import board
 from digitalio import DigitalInOut
@@ -30,7 +29,7 @@ accel_svc.measurement_period = 100
 accel_last_update = 0
 
 # CLUE has just one board pixel. 3 RGB bytes * 1 pixel.
-NEOPIXEL_BUF_LENGTH = const(3 * 1)
+NEOPIXEL_BUF_LENGTH = 3 * 1
 neopixel_svc = AddressablePixelService()
 neopixel_buf = bytearray(NEOPIXEL_BUF_LENGTH)
 # Take over NeoPixel control from clue.
@@ -54,7 +53,7 @@ light_svc.measurement_period = 100
 light_last_update = 0
 
 # Send 256 16-bit samples at a time.
-MIC_NUM_SAMPLES = const(256)
+MIC_NUM_SAMPLES = 256
 mic_svc = MicrophoneService()
 mic_svc.number_of_channels = 1
 mic_svc.measurement_period = 100

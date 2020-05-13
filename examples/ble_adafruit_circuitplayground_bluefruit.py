@@ -1,12 +1,11 @@
-# Bluefruit Playground server program, to run on Circuit Playground Bluefruit
+# Adafruit Service demo for Adafruit CLUE Circuit Playground Bluefruit board.
+# Accessible via Adafruit Bluefruit Playground app and Web Bluetooth Dashboard.
 
 import time
 
 import board
 from digitalio import DigitalInOut
 import neopixel_write
-
-from micropython import const
 
 from adafruit_ble import BLERadio
 
@@ -26,7 +25,7 @@ accel_svc.measurement_period = 100
 accel_last_update = 0
 
 # 3 RGB bytes * 10 pixels.
-NEOPIXEL_BUF_LENGTH = const(3 * 10)
+NEOPIXEL_BUF_LENGTH = 3 * 10
 neopixel_svc = AddressablePixelService()
 neopixel_buf = bytearray(NEOPIXEL_BUF_LENGTH)
 # Take over NeoPixel control from cp.
