@@ -66,13 +66,14 @@ class AdafruitServerAdvertisement(Advertisement):
     """Advertise the Adafruit company ID and the board USB PID.
     """
 
-    prefix = struct.pack(
-        "<BBHBH",
-        0x6,
-        _MANUFACTURING_DATA_ADT,
-        _ADAFRUIT_COMPANY_ID,
-        struct.calcsize("<HH"),
-        _PID_DATA_ID,
+    match_prefixes = (
+        struct.pack(
+            "<BHBH",
+            _MANUFACTURING_DATA_ADT,
+            _ADAFRUIT_COMPANY_ID,
+            struct.calcsize("<HH"),
+            _PID_DATA_ID,
+        ),
     )
     manufacturer_data = LazyObjectField(
         ManufacturerData,
@@ -89,10 +90,6 @@ class AdafruitServerAdvertisement(Advertisement):
         self.connectable = True
         self.flags.general_discovery = True
         self.flags.le_only = True
-
-    @classmethod
-    def matches(cls, entry):
-        return entry.matches(cls.prefix, all=False)
 
 
 class AdafruitService(Service):
