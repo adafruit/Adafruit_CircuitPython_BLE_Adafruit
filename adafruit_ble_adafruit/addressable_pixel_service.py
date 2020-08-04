@@ -34,12 +34,12 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 from collections import namedtuple
 import struct
 
+import _bleio
+
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic, ComplexCharacteristic
 from adafruit_ble.characteristics.int import Uint8Characteristic, Uint16Characteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
-
-import _bleio
 
 PixelValues = namedtuple("PixelValues", ("start", "write_now", "data"),)
 """Namedtuple for pixel data and instructions.

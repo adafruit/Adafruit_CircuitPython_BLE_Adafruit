@@ -33,11 +33,11 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 
 import struct
 
+from _bleio import PacketBuffer
+
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic, ComplexCharacteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
-
-from _bleio import PacketBuffer
 
 
 class _TonePacket(ComplexCharacteristic):
