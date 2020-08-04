@@ -34,12 +34,12 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 from collections import namedtuple
 import struct
 
-import _bleio
-
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic, ComplexCharacteristic
-from adafruit_ble.characteristics.int import Uint8Characteristic
+from adafruit_ble.characteristics.int import Uint8Characteristic, Uint16Characteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
+
+import _bleio
 
 PixelValues = namedtuple("PixelValues", ("start", "write_now", "data"),)
 """Namedtuple for pixel data and instructions.
@@ -67,19 +67,19 @@ class _PixelPacket(ComplexCharacteristic):
     data: raw array of data for all pixels, in proper color order for type of pixel
     """
 
+    MAX_LENGTH = 512
+
     uuid = AdafruitService.adafruit_service_uuid(0x903)
 
     def __init__(self):
         super().__init__(
             properties=Characteristic.WRITE,
             read_perm=Attribute.NO_ACCESS,
-            max_length=512,
+            max_length=self.MAX_LENGTH,
         )
 
     def bind(self, service):
         """Binds the characteristic to the given Service."""
-        # Set Characteristic's max length, based on value from AddressablePixelService.
-        # + 3 is for size of start and flags
         bound_characteristic = super().bind(service)
         return _bleio.PacketBuffer(bound_characteristic, buffer_size=1)
 
@@ -98,15 +98,22 @@ class AddressablePixelService(AdafruitService):
         uuid=AdafruitService.adafruit_service_uuid(0x902),
         properties=(Characteristic.READ | Characteristic.WRITE),
     )
+
+    pixel_buffer_size = Uint16Characteristic(
+        uuid=AdafruitService.adafruit_service_uuid(0x904),
+        properties=(Characteristic.READ | Characteristic.WRITE),
+        initial_value=_PixelPacket.MAX_LENGTH,
+    )
+
     """
     0 = WS2812 (NeoPixel), 800kHz
     1 = SPI (APA102: DotStar)
     """
     _pixel_packet = _PixelPacket()
-    """Pixel-setting data. max_length is supplied on binding."""
+    """Pixel-setting data."""
 
     def __init__(self, service=None):
-        self._pixel_packet_buf = None
+        self._pixel_packet_buf = bytearray(_PixelPacket.MAX_LENGTH)
         super().__init__(service=service)
 
     @property
@@ -114,15 +121,12 @@ class AddressablePixelService(AdafruitService):
         """Return a tuple (start, write_now, data) corresponding to the
         different parts of ``_pixel_packet``.
         """
-        if self._pixel_packet_buf is None:
-            self._pixel_packet_buf = bytearray(
-                self._pixel_packet.packet_size  # pylint: disable=no-member
-            )
         buf = self._pixel_packet_buf
-        if self._pixel_packet.readinto(buf) == 0:  # pylint: disable=no-member
+        num_read = self._pixel_packet.readinto(buf) # pylint: disable=no-member
+        if num_read == 0:
             # No new values available
             return None
 
         return PixelValues(
-            struct.unpack_from("<H", buf)[0], bool(buf[2] & 0x1), buf[3:],
+            struct.unpack_from("<H", buf)[0], bool(buf[2] & 0x1), buf[3:num_read],
         )
