@@ -39,6 +39,7 @@ from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 from _bleio import PacketBuffer
 
+
 class _TonePacket(ComplexCharacteristic):
     uuid = AdafruitService.adafruit_service_uuid(0xC01)
 

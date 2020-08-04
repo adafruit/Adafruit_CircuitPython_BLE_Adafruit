@@ -122,7 +122,7 @@ class AddressablePixelService(AdafruitService):
         different parts of ``_pixel_packet``.
         """
         buf = self._pixel_packet_buf
-        num_read = self._pixel_packet.readinto(buf) # pylint: disable=no-member
+        num_read = self._pixel_packet.readinto(buf)  # pylint: disable=no-member
         if num_read == 0:
             # No new values available
             return None
