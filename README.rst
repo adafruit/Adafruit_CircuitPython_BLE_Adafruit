@@ -25,6 +25,7 @@ Dependencies
 This driver depends on:
 
 * `Adafruit CircuitPython <https://github.com/adafruit/circuitpython>`_
+  **CircuitPython must be at least version 6.0.0.**
 
 Please ensure all dependencies are available on the CircuitPython filesystem.
 This is easily achieved by downloading
