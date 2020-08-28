@@ -8,6 +8,10 @@ from digitalio import DigitalInOut
 import neopixel_write
 from adafruit_ble import BLERadio
 
+import ulab
+
+from adafruit_clue import clue
+
 from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
 
 from adafruit_ble_adafruit.accelerometer_service import AccelerometerService
@@ -19,10 +23,6 @@ from adafruit_ble_adafruit.light_sensor_service import LightSensorService
 from adafruit_ble_adafruit.microphone_service import MicrophoneService
 from adafruit_ble_adafruit.temperature_service import TemperatureService
 from adafruit_ble_adafruit.tone_service import ToneService
-
-import ulab
-
-from adafruit_clue import clue
 
 accel_svc = AccelerometerService()
 accel_svc.measurement_period = 100
