@@ -9,6 +9,8 @@ import board
 import digitalio
 import neopixel_write
 
+import ulab
+
 from adafruit_ble import BLERadio
 
 import audiobusio
@@ -28,8 +30,6 @@ from adafruit_ble_adafruit.humidity_service import HumidityService
 from adafruit_ble_adafruit.light_sensor_service import LightSensorService
 from adafruit_ble_adafruit.microphone_service import MicrophoneService
 from adafruit_ble_adafruit.temperature_service import TemperatureService
-
-import ulab
 
 # Accelerometer
 lsm6ds33 = adafruit_lsm6ds.lsm6ds33.LSM6DS33(board.I2C())
