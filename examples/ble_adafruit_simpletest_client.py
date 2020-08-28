@@ -20,7 +20,7 @@ while True:
     ble.stop_scan()
 
     if connection and connection.connected:
-        temp_service = connection[TemperatureService]
         while connection.connected:
+            temp_service = connection[TemperatureService]
             print("Temperature:", temp_service.temperature)
             time.sleep(1)
