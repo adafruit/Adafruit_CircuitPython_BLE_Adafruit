@@ -24,13 +24,6 @@ Table of Contents
     :caption: Tutorials
 
 .. toctree::
-    :caption: Related Products
-
-    Adafruit CircuitPlayground Bluefruit <https://www.adafruit.com/product/4333>
-    Adafruit CLUE nRF52840 Express <https://www.adafruit.com/product/4500>
-    Adafruit Feather nRF52840 Sense <https://www.adafruit.com/product/4516>
-
-.. toctree::
     :caption: Other Links
 
     Download <https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit/releases/latest>
