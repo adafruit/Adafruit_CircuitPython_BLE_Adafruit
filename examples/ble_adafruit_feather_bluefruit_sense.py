@@ -9,13 +9,15 @@ import board
 import digitalio
 import neopixel_write
 
+import ulab
+
 from adafruit_ble import BLERadio
 
 import audiobusio
 
 import adafruit_apds9960.apds9960
 import adafruit_bmp280
-import adafruit_lsm6ds
+import adafruit_lsm6ds.lsm6ds33
 import adafruit_sht31d
 
 from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
@@ -29,10 +31,8 @@ from adafruit_ble_adafruit.light_sensor_service import LightSensorService
 from adafruit_ble_adafruit.microphone_service import MicrophoneService
 from adafruit_ble_adafruit.temperature_service import TemperatureService
 
-import ulab
-
 # Accelerometer
-lsm6ds33 = adafruit_lsm6ds.LSM6DS33(board.I2C())
+lsm6ds33 = adafruit_lsm6ds.lsm6ds33.LSM6DS33(board.I2C())
 # Used for pressure and temperature.
 bmp280 = adafruit_bmp280.Adafruit_BMP280_I2C(board.I2C())
 # Humidity.
