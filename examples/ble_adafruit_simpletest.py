@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+
 # Use with Web Bluetooth Dashboard, or with ble_adafruit_simpletest_client.py
 
 import time
