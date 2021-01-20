@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+
 # Adafruit Service demo for Adafruit Feather Bluefruit Sense board.
 # Accessible via Adafruit Web Bluetooth Dashboard.
 # (As of this writing, not yet accessible via Bluefruit Playground app.)
@@ -42,7 +45,10 @@ apds9960 = adafruit_apds9960.apds9960.APDS9960(board.I2C())
 apds9960.enable_color = True
 
 mic = audiobusio.PDMIn(
-    board.MICROPHONE_CLOCK, board.MICROPHONE_DATA, sample_rate=16000, bit_depth=16,
+    board.MICROPHONE_CLOCK,
+    board.MICROPHONE_DATA,
+    sample_rate=16000,
+    bit_depth=16,
 )
 
 # Create and initialize the available services.

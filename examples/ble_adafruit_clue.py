@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+
 # Adafruit Service demo for Adafruit CLUE board.
 # Accessible via Adafruit Bluefruit Playground app and Web Bluetooth Dashboard.
 
