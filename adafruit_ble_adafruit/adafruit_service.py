@@ -69,8 +69,12 @@ class AdafruitServerAdvertisement(
     pid = ManufacturerDataField(_PID_DATA_ID, "<H")
     """The USB PID (product id) for this board."""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *, entry=None):
+        super().__init__(entry=entry)
+        # Return early if things have been set by an existing ScanEntry.
+        if entry:
+            return
+        # Creating an advertisement to send.
         self.connectable = True
         self.flags.general_discovery = True
         self.flags.le_only = True
