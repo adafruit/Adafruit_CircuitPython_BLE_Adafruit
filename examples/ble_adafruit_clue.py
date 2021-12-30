@@ -11,7 +11,7 @@ from digitalio import DigitalInOut
 import neopixel_write
 from adafruit_ble import BLERadio
 
-import ulab
+from ulab import numpy as np
 
 from adafruit_clue import clue
 
@@ -61,7 +61,7 @@ mic_svc = MicrophoneService()
 mic_svc.number_of_channels = 1
 mic_svc.measurement_period = 100
 mic_last_update = 0
-mic_samples = ulab.zeros(MIC_NUM_SAMPLES, dtype=ulab.uint16)
+mic_samples = np.zeros(MIC_NUM_SAMPLES, dtype=np.uint16)
 
 temp_svc = TemperatureService()
 temp_svc.measurement_period = 100

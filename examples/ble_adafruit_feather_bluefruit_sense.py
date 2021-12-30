@@ -12,7 +12,7 @@ import board
 import digitalio
 import neopixel_write
 
-import ulab
+from ulab import numpy as np
 
 from adafruit_ble import BLERadio
 
@@ -87,7 +87,7 @@ mic_svc = MicrophoneService()
 mic_svc.number_of_channels = 1
 mic_svc.measurement_period = 100
 mic_last_update = 0
-mic_samples = ulab.zeros(MIC_NUM_SAMPLES, dtype=ulab.uint16)
+mic_samples = np.zeros(MIC_NUM_SAMPLES, dtype=np.uint16)
 
 temp_svc = TemperatureService()
 temp_svc.measurement_period = 100
