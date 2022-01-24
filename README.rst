@@ -2,7 +2,7 @@ Introduction
 ============
 
 .. image:: https://readthedocs.org/projects/adafruit-circuitpython-ble_adafruit/badge/?version=latest
-    :target: https://circuitpython.readthedocs.io/projects/ble_adafruit/en/latest/
+    :target: https://docs.circuitpython.org/projects/ble_adafruit/en/latest/
     :alt: Documentation Status
 
 .. image:: https://img.shields.io/discord/327254708534116352.svg
@@ -63,7 +63,7 @@ To install in a virtual environment in your current project:
 Documentation
 =============
 
-API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/ble_adafruit/en/latest/>`_.
+API documentation for this library can be found on `Read the Docs <https://docs.circuitpython.org/projects/ble_adafruit/en/latest/>`_.
 
 Contributing
 ============
