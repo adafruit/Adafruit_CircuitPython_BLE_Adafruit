@@ -22,6 +22,11 @@ from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic, ComplexCharacteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
+try:
+    from typing import Optional, Tuple
+except ImportError:
+    pass
+
 
 class _TonePacket(ComplexCharacteristic):
     uuid = AdafruitService.adafruit_service_uuid(0xC01)
@@ -29,7 +34,7 @@ class _TonePacket(ComplexCharacteristic):
     format = "<HI"
     format_size = struct.calcsize(format)
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             properties=Characteristic.WRITE,
             read_perm=Attribute.NO_ACCESS,
@@ -37,7 +42,7 @@ class _TonePacket(ComplexCharacteristic):
             fixed_length=True,
         )
 
-    def bind(self, service):
+    def bind(self, service: "ToneService") -> PacketBuffer:
         """Binds the characteristic to the given Service."""
         bound_characteristic = super().bind(service)
         return PacketBuffer(bound_characteristic, buffer_size=1)
@@ -54,12 +59,12 @@ class ToneService(AdafruitService):
     if duration == 0, play indefinitely.
     """
 
-    def __init__(self, service=None):
+    def __init__(self, service: Optional["ToneService"] = None) -> None:
         super().__init__(service=service)
         self._tone_packet_buf = bytearray(_TonePacket.format_size)
 
     @property
-    def tone(self):
+    def tone(self) -> Optional[Tuple[int, int]]:
         """Return (frequency, duration), or None if no value available"""
         buf = self._tone_packet_buf
         if self._tone_packet.readinto(buf) == 0:
@@ -67,7 +72,7 @@ class ToneService(AdafruitService):
             return None
         return struct.unpack(_TonePacket.format, buf)
 
-    def play(self, frequency, duration):
+    def play(self, frequency: int, duration: float) -> None:
         """
         Frequency is in Hz. If frequency == 0, a tone being played is turned off.
         Duration is in seconds. If duration == 0, play indefinitely.

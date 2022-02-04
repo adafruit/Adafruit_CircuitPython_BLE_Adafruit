@@ -24,6 +24,11 @@ from adafruit_ble.characteristics import Characteristic, ComplexCharacteristic
 from adafruit_ble.characteristics.int import Uint8Characteristic, Uint16Characteristic
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
+try:
+    from typing import Optional
+except ImportError:
+    pass
+
 PixelValues = namedtuple(
     "PixelValues",
     ("start", "write_now", "data"),
@@ -57,14 +62,14 @@ class _PixelPacket(ComplexCharacteristic):
 
     uuid = AdafruitService.adafruit_service_uuid(0x903)
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             properties=Characteristic.WRITE,
             read_perm=Attribute.NO_ACCESS,
             max_length=self.MAX_LENGTH,
         )
 
-    def bind(self, service):
+    def bind(self, service: "AddressablePixelService") -> _bleio.PacketBuffer:
         """Binds the characteristic to the given Service."""
         bound_characteristic = super().bind(service)
         return _bleio.PacketBuffer(bound_characteristic, buffer_size=1)
@@ -98,12 +103,12 @@ class AddressablePixelService(AdafruitService):
     _pixel_packet = _PixelPacket()
     """Pixel-setting data."""
 
-    def __init__(self, service=None):
+    def __init__(self, service: Optional["AddressablePixelService"] = None) -> None:
         self._pixel_packet_buf = bytearray(_PixelPacket.MAX_LENGTH)
         super().__init__(service=service)
 
     @property
-    def values(self):
+    def values(self) -> Optional[PixelValues]:
         """Return a tuple (start, write_now, data) corresponding to the
         different parts of ``_pixel_packet``.
         """

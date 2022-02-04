@@ -39,6 +39,12 @@ from adafruit_ble.characteristics.int import Int32Characteristic, Uint32Characte
 from adafruit_ble.uuid import VendorUUID
 from adafruit_ble.services import Service
 
+try:
+    from typing import Optional
+    from _bleio import ScanEntry
+except ImportError:
+    pass
+
 
 _MANUFACTURING_DATA_ADT = const(0xFF)
 _ADAFRUIT_COMPANY_ID = const(0x0822)
@@ -69,7 +75,7 @@ class AdafruitServerAdvertisement(
     pid = ManufacturerDataField(_PID_DATA_ID, "<H")
     """The USB PID (product id) for this board."""
 
-    def __init__(self, *, entry=None):
+    def __init__(self, *, entry: Optional[ScanEntry] = None) -> None:
         super().__init__(entry=entry)
         # Return early if things have been set by an existing ScanEntry.
         if entry:
@@ -84,14 +90,14 @@ class AdafruitService(Service):
     """Common superclass for all Adafruit board services."""
 
     @staticmethod
-    def adafruit_service_uuid(n):
+    def adafruit_service_uuid(n: int) -> VendorUUID:
         """Generate a VendorUUID which fills in a 16-bit value in the standard
         Adafruit Service UUID: ADAFnnnn-C332-42A8-93BD-25E905756CB8.
         """
         return VendorUUID("ADAF{:04x}-C332-42A8-93BD-25E905756CB8".format(n))
 
     @classmethod
-    def measurement_period_charac(cls, msecs=1000):
+    def measurement_period_charac(cls, msecs: int = 1000) -> Int32Characteristic:
         """Create a measurement_period Characteristic for use by a subclass."""
         return Int32Characteristic(
             uuid=cls.adafruit_service_uuid(0x0001),
@@ -100,7 +106,7 @@ class AdafruitService(Service):
         )
 
     @classmethod
-    def service_version_charac(cls, version=1):
+    def service_version_charac(cls, version: int = 1) -> Uint32Characteristic:
         """Create a service_version Characteristic for use by a subclass."""
         return Uint32Characteristic(
             uuid=cls.adafruit_service_uuid(0x0002),
