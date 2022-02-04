@@ -38,7 +38,7 @@ class ButtonService(AdafruitService):
     measurement_period = AdafruitService.measurement_period_charac(0)
     """Initially 0: send notification only on changes. -1 means stop reading."""
 
-    def set_pressed(self, switch, button_a, button_b):
+    def set_pressed(self, switch: bool, button_a: bool, button_b: bool) -> None:
         """Update the pressed value all at once."""
         pressed = 0
         if switch:
@@ -51,16 +51,16 @@ class ButtonService(AdafruitService):
             self.pressed = pressed
 
     @property
-    def switch(self):
+    def switch(self) -> bool:
         """``True`` when the slide switch is set to the left; ``False`` when to the right."""
         return bool(self.pressed & 0x1)
 
     @property
-    def button_a(self):
+    def button_a(self) -> bool:
         """``True`` when Button A is pressed."""
         return bool(self.pressed & 0x2)
 
     @property
-    def button_b(self):
+    def button_b(self) -> bool:
         """``True`` when Button B is pressed."""
         return bool(self.pressed & 0x4)
