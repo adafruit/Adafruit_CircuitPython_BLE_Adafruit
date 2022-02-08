@@ -33,6 +33,7 @@ from micropython import const
 
 from adafruit_ble.advertising import Advertisement, LazyObjectField
 from adafruit_ble.advertising.standard import ManufacturerData, ManufacturerDataField
+from adafruit_ble.advertising.adafruit import MANUFACTURING_DATA_ADT, ADAFRUIT_COMPANY_ID
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic
 from adafruit_ble.characteristics.int import Int32Characteristic, Uint32Characteristic
@@ -40,8 +41,6 @@ from adafruit_ble.uuid import VendorUUID
 from adafruit_ble.services import Service
 
 
-_MANUFACTURING_DATA_ADT = const(0xFF)
-_ADAFRUIT_COMPANY_ID = const(0x0822)
 _PID_DATA_ID = const(0x0001)  # This is the same as the Radio data id, unfortunately.
 
 
@@ -53,8 +52,8 @@ class AdafruitServerAdvertisement(
     match_prefixes = (
         struct.pack(
             "<BHBH",
-            _MANUFACTURING_DATA_ADT,
-            _ADAFRUIT_COMPANY_ID,
+            MANUFACTURING_DATA_ADT,
+            ADAFRUIT_COMPANY_ID,
             struct.calcsize("<HH"),
             _PID_DATA_ID,
         ),
@@ -62,8 +61,8 @@ class AdafruitServerAdvertisement(
     manufacturer_data = LazyObjectField(
         ManufacturerData,
         "manufacturer_data",
-        advertising_data_type=_MANUFACTURING_DATA_ADT,
-        company_id=_ADAFRUIT_COMPANY_ID,
+        advertising_data_type=MANUFACTURING_DATA_ADT,
+        company_id=ADAFRUIT_COMPANY_ID,
         key_encoding="<H",
     )
     pid = ManufacturerDataField(_PID_DATA_ID, "<H")
