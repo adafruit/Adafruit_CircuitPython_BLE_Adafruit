@@ -33,7 +33,10 @@ from micropython import const
 
 from adafruit_ble.advertising import Advertisement, LazyObjectField
 from adafruit_ble.advertising.standard import ManufacturerData, ManufacturerDataField
-from adafruit_ble.advertising.adafruit import MANUFACTURING_DATA_ADT, ADAFRUIT_COMPANY_ID
+from adafruit_ble.advertising.adafruit import (
+    MANUFACTURING_DATA_ADT,
+    ADAFRUIT_COMPANY_ID,
+)
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic
 from adafruit_ble.characteristics.int import Int32Characteristic, Uint32Characteristic
