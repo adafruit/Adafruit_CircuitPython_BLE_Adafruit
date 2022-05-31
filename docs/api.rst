@@ -4,7 +4,10 @@
    :members:
 
 .. automodule:: adafruit_ble_adafruit.adafruit_service
-   :members:
+
+   .. autoclass:: AdafruitServerAdvertisement
+      :members:
+      :exclude-members: match_prefixes
 
 .. automodule:: adafruit_ble_adafruit.addressable_pixel_service
    :members:
