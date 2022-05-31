@@ -4,6 +4,8 @@
    :members:
 
 .. automodule:: adafruit_ble_adafruit.adafruit_service
+   :members:
+   :exclude-members: AdafruitServerAdvertisement
 
    .. autoclass:: AdafruitServerAdvertisement
       :members:
