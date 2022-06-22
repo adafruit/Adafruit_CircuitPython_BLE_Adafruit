@@ -114,9 +114,12 @@ while True:
             clue._mic.record(  # pylint: disable=protected-access
                 mic_samples, len(mic_samples)
             )
+            # Need to create an array of the correct type, because ulab
+            # seems to get broadcasting of builtin Python types wrong.
+            offset = np.array([32768], dtype=np.uint16)
             # This subtraction yields unsigned values which are
             # reinterpreted as signed after passing.
-            mic_svc.sound_samples = mic_samples - 32768
+            mic_svc.sound_samples = mic_samples - offset
             mic_last_update = now_msecs
 
         neopixel_values = neopixel_svc.values
