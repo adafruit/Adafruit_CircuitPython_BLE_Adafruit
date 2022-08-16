@@ -11,7 +11,7 @@ BLE access to color sensor data.
 * Author(s): Dan Halbert
 """
 
-__version__ = "0.0.0-auto.0"
+__version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 
 from adafruit_ble.attributes import Attribute
