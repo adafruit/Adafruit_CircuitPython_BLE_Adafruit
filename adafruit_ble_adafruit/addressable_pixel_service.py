@@ -14,14 +14,14 @@ BLE control of addressable pixels, such as NeoPixels or DotStars.
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 
-from collections import namedtuple
 import struct
+from collections import namedtuple
 
 import _bleio
-
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic, ComplexCharacteristic
 from adafruit_ble.characteristics.int import Uint8Characteristic, Uint16Characteristic
+
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 try:
@@ -113,7 +113,7 @@ class AddressablePixelService(AdafruitService):
         different parts of ``_pixel_packet``.
         """
         buf = self._pixel_packet_buf
-        num_read = self._pixel_packet.readinto(buf)  # pylint: disable=no-member
+        num_read = self._pixel_packet.readinto(buf)
         if num_read == 0:
             # No new values available
             return None

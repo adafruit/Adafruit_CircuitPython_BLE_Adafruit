@@ -7,16 +7,13 @@
 import time
 
 import board
-from digitalio import DigitalInOut
 import neopixel_write
-
 from adafruit_ble import BLERadio
-
 from adafruit_circuitplayground import cp
-
-from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
+from digitalio import DigitalInOut
 
 from adafruit_ble_adafruit.accelerometer_service import AccelerometerService
+from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
 from adafruit_ble_adafruit.addressable_pixel_service import AddressablePixelService
 from adafruit_ble_adafruit.button_service import ButtonService
 from adafruit_ble_adafruit.light_sensor_service import LightSensorService
@@ -32,7 +29,7 @@ NEOPIXEL_BUF_LENGTH = 3 * 10
 neopixel_svc = AddressablePixelService()
 neopixel_buf = bytearray(NEOPIXEL_BUF_LENGTH)
 # Take over NeoPixel control from cp.
-cp._pixels.deinit()  # pylint: disable=protected-access
+cp._pixels.deinit()
 neopixel_out = DigitalInOut(board.NEOPIXEL)
 neopixel_out.switch_to_output()
 
@@ -69,7 +66,7 @@ while True:
     ble.stop_advertising()
 
     while ble.connected:
-        now_msecs = time.monotonic_ns() // 1000000  # pylint: disable=no-member
+        now_msecs = time.monotonic_ns() // 1000000
 
         if now_msecs - accel_last_update >= accel_svc.measurement_period:
             accel_svc.acceleration = cp.acceleration

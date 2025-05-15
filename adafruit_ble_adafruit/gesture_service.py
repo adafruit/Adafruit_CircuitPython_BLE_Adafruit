@@ -10,19 +10,21 @@ BLE access to gesture detector.
 
 * Author(s): Dan Halbert
 """
+
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic
 from adafruit_ble.characteristics.int import Uint8Characteristic
+
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class GestureService(AdafruitService):  # pylint: disable=too-few-public-methods
+class GestureService(AdafruitService):
     """Gesture sensor."""
 
-    UP = 1  # pylint: disable=invalid-name
+    UP = 1
     """swipe up"""
     DOWN = 2
     """swipe down"""

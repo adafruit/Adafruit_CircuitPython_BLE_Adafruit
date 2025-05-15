@@ -7,25 +7,19 @@
 
 import time
 
-import board
-
-import digitalio
-import neopixel_write
-
-from ulab import numpy as np
-
-from adafruit_ble import BLERadio
-
-import audiobusio
-
 import adafruit_apds9960.apds9960
 import adafruit_bmp280
 import adafruit_lsm6ds.lsm6ds33
 import adafruit_sht31d
-
-from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
+import audiobusio
+import board
+import digitalio
+import neopixel_write
+from adafruit_ble import BLERadio
+from ulab import numpy as np
 
 from adafruit_ble_adafruit.accelerometer_service import AccelerometerService
+from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
 from adafruit_ble_adafruit.addressable_pixel_service import AddressablePixelService
 from adafruit_ble_adafruit.barometric_pressure_service import BarometricPressureService
 from adafruit_ble_adafruit.button_service import ButtonService
@@ -114,7 +108,7 @@ while True:
     ble.stop_advertising()
 
     while ble.connected:
-        now_msecs = time.monotonic_ns() // 1000000  # pylint: disable=no-member
+        now_msecs = time.monotonic_ns() // 1000000
 
         if now_msecs - accel_last_update >= accel_svc.measurement_period:
             accel_svc.acceleration = lsm6ds33.acceleration

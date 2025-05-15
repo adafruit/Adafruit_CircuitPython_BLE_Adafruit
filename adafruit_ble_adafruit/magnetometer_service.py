@@ -16,10 +16,11 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic, StructCharacteristic
+
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class MagnetometerService(AdafruitService):  # pylint: disable=too-few-public-methods
+class MagnetometerService(AdafruitService):
     """Magnetometer values."""
 
     uuid = AdafruitService.adafruit_service_uuid(0x500)

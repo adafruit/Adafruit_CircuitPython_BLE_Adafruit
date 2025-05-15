@@ -29,22 +29,22 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 
 import struct
 
-from micropython import const
-
 from adafruit_ble.advertising import Advertisement, LazyObjectField
-from adafruit_ble.advertising.standard import ManufacturerData, ManufacturerDataField
 from adafruit_ble.advertising.adafruit import (
-    MANUFACTURING_DATA_ADT,
     ADAFRUIT_COMPANY_ID,
+    MANUFACTURING_DATA_ADT,
 )
+from adafruit_ble.advertising.standard import ManufacturerData, ManufacturerDataField
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic
 from adafruit_ble.characteristics.int import Int32Characteristic, Uint32Characteristic
-from adafruit_ble.uuid import VendorUUID
 from adafruit_ble.services import Service
+from adafruit_ble.uuid import VendorUUID
+from micropython import const
 
 try:
     from typing import Optional
+
     from _bleio import ScanEntry
 except ImportError:
     pass
@@ -53,9 +53,7 @@ except ImportError:
 _PID_DATA_ID = const(0x0001)  # This is the same as the Radio data id, unfortunately.
 
 
-class AdafruitServerAdvertisement(
-    Advertisement
-):  # pylint: disable=too-few-public-methods
+class AdafruitServerAdvertisement(Advertisement):
     """Advertise the Adafruit company ID and the board USB PID."""
 
     match_prefixes = (
@@ -96,7 +94,7 @@ class AdafruitService(Service):
         """Generate a VendorUUID which fills in a 16-bit value in the standard
         Adafruit Service UUID: ADAFnnnn-C332-42A8-93BD-25E905756CB8.
         """
-        return VendorUUID("ADAF{:04x}-C332-42A8-93BD-25E905756CB8".format(n))
+        return VendorUUID(f"ADAF{n:04x}-C332-42A8-93BD-25E905756CB8")
 
     @classmethod
     def measurement_period_charac(cls, msecs: int = 1000) -> Int32Characteristic:
