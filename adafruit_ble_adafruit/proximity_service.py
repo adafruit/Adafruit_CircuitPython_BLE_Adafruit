@@ -10,16 +10,18 @@ BLE access to proximity sensor.
 
 * Author(s): Dan Halbert
 """
+
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic
 from adafruit_ble.characteristics.int import Uint16Characteristic
+
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class ProximityService(AdafruitService):  # pylint: disable=too-few-public-methods
+class ProximityService(AdafruitService):
     """Status of buttons and switches on the board."""
 
     uuid = AdafruitService.adafruit_service_uuid(0xE00)

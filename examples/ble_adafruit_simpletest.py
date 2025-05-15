@@ -6,7 +6,6 @@
 import time
 
 import microcontroller
-
 from adafruit_ble import BLERadio
 
 from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
@@ -32,11 +31,9 @@ while True:
     ble.stop_advertising()
 
     while ble.connected:
-        now_msecs = time.monotonic_ns() // 1000000  # pylint: disable=no-member
+        now_msecs = time.monotonic_ns() // 1000000
 
         if now_msecs - temp_last_update >= temp_svc.measurement_period:
-            temp_svc.temperature = (
-                microcontroller.cpu.temperature  # pylint: disable=no-member
-            )
+            temp_svc.temperature = microcontroller.cpu.temperature
 
             temp_last_update = now_msecs

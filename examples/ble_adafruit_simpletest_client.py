@@ -4,11 +4,12 @@
 import time
 
 import adafruit_ble
+
 from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
 from adafruit_ble_adafruit.temperature_service import TemperatureService
 
 # PyLint can't find BLERadio for some reason so special case it here.
-ble = adafruit_ble.BLERadio()  # pylint: disable=no-member
+ble = adafruit_ble.BLERadio()
 
 connection = None
 

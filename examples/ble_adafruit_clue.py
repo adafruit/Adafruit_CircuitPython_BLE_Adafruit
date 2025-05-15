@@ -7,17 +7,14 @@
 import time
 
 import board
-from digitalio import DigitalInOut
 import neopixel_write
 from adafruit_ble import BLERadio
-
+from adafruit_clue import clue
+from digitalio import DigitalInOut
 from ulab import numpy as np
 
-from adafruit_clue import clue
-
-from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
-
 from adafruit_ble_adafruit.accelerometer_service import AccelerometerService
+from adafruit_ble_adafruit.adafruit_service import AdafruitServerAdvertisement
 from adafruit_ble_adafruit.addressable_pixel_service import AddressablePixelService
 from adafruit_ble_adafruit.barometric_pressure_service import BarometricPressureService
 from adafruit_ble_adafruit.button_service import ButtonService
@@ -36,7 +33,7 @@ NEOPIXEL_BUF_LENGTH = 3 * 1
 neopixel_svc = AddressablePixelService()
 neopixel_buf = bytearray(NEOPIXEL_BUF_LENGTH)
 # Take over NeoPixel control from clue.
-clue._pixel.deinit()  # pylint: disable=protected-access
+clue._pixel.deinit()
 neopixel_out = DigitalInOut(board.NEOPIXEL)
 neopixel_out.switch_to_output()
 
@@ -89,7 +86,7 @@ while True:
     ble.stop_advertising()
 
     while ble.connected:
-        now_msecs = time.monotonic_ns() // 1000000  # pylint: disable=no-member
+        now_msecs = time.monotonic_ns() // 1000000
 
         if now_msecs - accel_last_update >= accel_svc.measurement_period:
             accel_svc.acceleration = clue.acceleration
@@ -111,9 +108,7 @@ while True:
             light_last_update = now_msecs
 
         if now_msecs - mic_last_update >= mic_svc.measurement_period:
-            clue._mic.record(  # pylint: disable=protected-access
-                mic_samples, len(mic_samples)
-            )
+            clue._mic.record(mic_samples, len(mic_samples))
             # Need to create an array of the correct type, because ulab
             # seems to get broadcasting of builtin Python types wrong.
             offset = np.array([32768], dtype=np.uint16)

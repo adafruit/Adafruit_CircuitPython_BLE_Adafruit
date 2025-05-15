@@ -17,10 +17,11 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Adafruit.git"
 from adafruit_ble.attributes import Attribute
 from adafruit_ble.characteristics import Characteristic
 from adafruit_ble.characteristics.float import FloatCharacteristic
+
 from adafruit_ble_adafruit.adafruit_service import AdafruitService
 
 
-class LightSensorService(AdafruitService):  # pylint: disable=too-few-public-methods
+class LightSensorService(AdafruitService):
     """Light sensor value."""
 
     uuid = AdafruitService.adafruit_service_uuid(0x300)
